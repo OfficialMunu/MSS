@@ -82,7 +82,7 @@ def verify_user_token(func):
     @functools.wraps(func)
     def wrapper(self, *args, **vargs):
         if self.mscolab_server_url is None:
-            # in case of a forecd logout some QT events may still trigger MSCOLAB functions
+            # in case of a forced logout some QT events may still trigger MSCOLAB functions
             return
         verify_user_token.depth += 1
         try:
@@ -297,7 +297,8 @@ class MSColab_ConnectDialog(QDialog, ui_conn.Ui_MSColabConnectDialog):
                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
                     if ret == QMessageBox.Yes:
                         url_list = [self.mscolab_server_url] + url_list
-                        modify_config_file({"default_MSCOLAB": url_list})
+                        modify_config_file({"default_MSCOLAB": url_list,
+                                            "mscolab_server_url": self.mscolab_server_url})
 
                 # Fill Email and Password fields from config
                 self.loginEmailLe.setText(
